@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Easily create social media share links for websites, emails and more"
+    />
+    <meta name="title" content="Share Link Generator" />
+    <title>Share Link Generator</title>
+    <link rel="stylesheet" href="assets/bulma.min.css" />
+    <style>
+      .-mt-1 {
+        margin-top: -0.25rem;
+      }
+      .-mt-5\.5 {
+        margin-top: -2.25rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero is-primary">
+      <div class="hero-body has-text-centered">
+        <h1 class="-mt-1 title">Share Link Generator</h1>
+        <h2 class="subtitle">
+          Easily create social media share links for websites, emails and more.
+        </h2>
+      </div>
+    </header>
+
+    <section
+      class="container -mt-5.5 is-max-desktop"
+      x-data="{ title: '', link: '', image: '' }"
+    >
+      <div class="mb-2 columns">
+        <div class="column">
+          <div class="box">
+            <form>
+              <div class="field">
+                <label class="label"
+                  >Text (Twitter, Pinterest, & LinkedIn only)</label
+                >
+                <div class="control">
+                  <input class="input" type="text" x-model="title" />
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Link URL</label>
+                <div class="control">
+                  <input class="input" type="text" x-model="link" />
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label"
+                  >Thumbnail Image URL (optional, Pinterest only)</label
+                >
+                <div class="control">
+                  <input class="input" type="text" x-model="image" />
+                </div>
+              </div>
+
+              <div class="has-text-centered">
+                <button
+                  type="button"
+                  class="button is-primary"
+                  @click="generate(title, link, image)"
+                >
+                  Generate
+                </button>
+              </div>
+            </form>
+
+            <hr />
+
+            <form>
+              <div class="field">
+                <label class="label">Twitter</label>
+                <div class="control">
+                  <input class="input" type="text" id="twitter" readonly />
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Facebook</label>
+                <div class="control">
+                  <input class="input" type="text" id="facebook" readonly />
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Pinterest</label>
+                <div class="control">
+                  <input class="input" type="text" id="pinterest" readonly />
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">LinkedIn</label>
+                <div class="control">
+                  <input class="input" type="text" id="linkedin" readonly />
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Tumblr</label>
+                <div class="control">
+                  <input class="input" type="text" id="tumblr" readonly />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <strong>Share Link Generator</strong> by
+          <a href="https://github.com/inubayuaji">Inu Bayu Aji</a>. The source
+          code is licensed
+          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+          Sponsored by
+          <a href="http://aplkasiantrian.com">Aplikasi Antrian</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="assets/alpine.min.js"></script>
+    <script>
+      function generate(title, link, image) {
+        mapLink = {
+          twitter:
+            "https://twitter.com/intent/tweet?url=" +
+            encodeURIComponent(link) +
+            "&text=" +
+            encodeURIComponent(title),
+          facebook:
+            "https://www.facebook.com/sharer/sharer.php?u=" +
+            encodeURIComponent(link),
+          pinterest:
+            "http://pinterest.com/pin/create/button/?url=" +
+            encodeURIComponent(link) +
+            "&media=" +
+            encodeURIComponent(image) +
+            "&description=" +
+            encodeURIComponent(title),
+          linkedin:
+            "http://www.linkedin.com/shareArticle?mini=true&url=" +
+            encodeURIComponent(link) +
+            "&title=" +
+            encodeURIComponent(title),
+          tumblr:
+            "http://www.tumblr.com/share?v=3&u=" +
+            encodeURIComponent(link) +
+            "&t=" +
+            encodeURIComponent(title),
+        };
+
+        setText("#twitter", mapLink["twitter"]);
+        setText("#facebook", mapLink["facebook"]);
+        setText("#pinterest", mapLink["pinterest"]);
+        setText("#linkedin", mapLink["linkedin"]);
+        setText("#tumblr", mapLink["tumblr"]);
+      }
+      function setText(el, text) {
+        document.querySelector(el).value = text;
+      }
+    </script>
+  </body>
+</html>
