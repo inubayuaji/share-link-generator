@@ -39,7 +39,7 @@
             <form>
               <div class="field">
                 <label class="label"
-                  >Text (Twitter, Pinterest, & LinkedIn only)</label
+                  >Text (Twitter, Pinterest, LinkedIn & Tumblr only)</label
                 >
                 <div class="control">
                   <input class="input" type="text" x-model="title" />
@@ -128,33 +128,36 @@
     <script src="assets/alpine.min.js"></script>
     <script>
       function generate(title, link, image) {
+        if(link == ""){
+          return false;
+        }
+
         mapLink = {
           twitter:
-            "https://twitter.com/intent/tweet?url=" +
-            encodeURIComponent(link) +
-            "&text=" +
-            encodeURIComponent(title),
+            "https://twitter.com/intent/tweet?url=" + encodeURIComponent(link),
           facebook:
             "https://www.facebook.com/sharer/sharer.php?u=" +
             encodeURIComponent(link),
           pinterest:
             "http://pinterest.com/pin/create/button/?url=" +
-            encodeURIComponent(link) +
-            "&media=" +
-            encodeURIComponent(image) +
-            "&description=" +
-            encodeURIComponent(title),
+            encodeURIComponent(link),
           linkedin:
             "http://www.linkedin.com/shareArticle?mini=true&url=" +
-            encodeURIComponent(link) +
-            "&title=" +
-            encodeURIComponent(title),
+            encodeURIComponent(link),
           tumblr:
-            "http://www.tumblr.com/share?v=3&u=" +
-            encodeURIComponent(link) +
-            "&t=" +
-            encodeURIComponent(title),
+            "http://www.tumblr.com/share?v=3&u=" + encodeURIComponent(link),
         };
+
+        if (title != "") {
+          mapLink["twitter"] += "&text=" + encodeURIComponent(title);
+          mapLink["pinterest"] += "&description=" + encodeURIComponent(title);
+          mapLink["linkedin"] += "&title=" + encodeURIComponent(title);
+          mapLink["tumblr"] += "&t=" + encodeURIComponent(title);
+        }
+
+        if (image != "") {
+          mapLink["pinterest"] += "&media=" + encodeURIComponent(image);
+        }
 
         setText("#twitter", mapLink["twitter"]);
         setText("#facebook", mapLink["facebook"]);
